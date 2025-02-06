@@ -8,22 +8,22 @@ import csv
 class AbstractFile(ABC):
     """Абстрактный класс для работы с файлами"""
 
-    def __init__(self, file_path: str):
+    def __init__(self, file_path: str) -> None:
         """Инициализация с указанием пути к файлу"""
         self.file_path = file_path
 
     @abstractmethod
-    def read(self):
+    def read(self) -> str:
         """Чтение данных из файла"""
         pass
 
     @abstractmethod
-    def write(self, data):
+    def write(self, data: str) -> None:
         """Запись данных в файл (перезапись)"""
         pass
 
     @abstractmethod
-    def append(self, data):
+    def append(self, data: str) -> None:
         """Добавление данных в файл (без удаления существующего)"""
         pass
     
