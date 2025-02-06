@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 import json
+import csv
+
 
 
 
@@ -53,3 +55,49 @@ class JsonFile(AbstractFile):
             existing_data = data
 
         self.write(existing_data)
+
+class TxtFile(AbstractFile):
+    """Класс для работы с TXT-файлами"""
+
+    def read(self):
+        """Чтение данных из TXT-файла"""
+        try:
+            with open(self.file_path, "r", encoding="utf-8") as file:
+                return file.read()
+        except FileNotFoundError:
+            return ""
+
+    def write(self, data):
+        """Запись данных в TXT-файл (перезапись)"""
+        with open(self.file_path, "w", encoding="utf-8") as file:
+            file.write(str(data))
+
+    def append(self, data):
+        """Добавление данных в TXT-файл"""
+        with open(self.file_path, "a", encoding="utf-8") as file:
+            file.write("\n" + str(data))
+
+
+class CsvFile(AbstractFile):
+    """Класс для работы с CSV-файлами"""
+
+    def read(self):
+        """Чтение данных из CSV-файла"""
+        try:
+            with open(self.file_path, newline="", encoding="utf-8") as file:
+                reader = csv.reader(file)
+                return [row for row in reader]
+        except FileNotFoundError:
+            return []
+
+    def write(self, data):
+        """Запись данных в CSV-файл (перезапись)"""
+        with open(self.file_path, "w", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+            writer.writerows(data)
+
+    def append(self, data):
+        """Добавление данных в CSV-файл"""
+        with open(self.file_path, "a", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+            writer.writerows(data)
